@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Calendar</title>
+    <style>
+        .red {
+            color: red;
+        }
+
+        .center {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <table id="calendar" class="center">
+            <tr id="control">
+                <td><input type="button" id="control-previous-month" value="←"></td>
+                <td id="date" colspan="5"></td>
+                <td><input type="button" id="control-forward-month" value="→"></td>
+            </tr>
+            <tr id="weekday">
+                <td>
+                    <a class="red">Sun</a>
+                </td>
+                <td>Mon</td>
+                <td>Tue</td>
+                <td>Wed</td>
+                <td>Thu</td>
+                <td>Fri</td>
+                <td>
+                    <a class="red">Sat</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+<script src="../templete/jquery-3.5.1.js"></script>
+<script>
+
+    jQuery(function ($) {
+
+        $(document).ready(function () {
+            setMonth();
+            setDay();
+        })
+
+        function setMonth() {
+            // 今月を取得する
+            let date = new Date();
+            $("#date").text(date.getFullYear() + "." + (date.getMonth() + 1));
+        }
+
+        $("#control-previous-month").on("click", function () {
+            let dateData = $("#date").text().split(".");
+            // 先月を取得する
+            let date = new Date(dateData[0], parseInt(dateData[1]) - 2, 1);
+            $("#date").text(date.getFullYear() + "." + (date.getMonth() + 1));
+            setDay();
+        })
+
+        $("#control-forward-month").on("click", function () {
+            let dateData = $("#date").text().split(".");
+            // 翌月を取得する
+            let date = new Date(dateData[0], parseInt(dateData[1]), 1);
+            $("#date").text(date.getFullYear() + "." + (date.getMonth() + 1));
+            setDay();
+        })
+
+        function setDay() {
+            $("#weekday").nextAll().remove();
+
+            let dateData = $("#date").text().split(".");
+            // 今月を取得する
+            let firstDay = new Date(dateData[0], parseInt(dateData[1]) - 1, 1);
+            let firstDayOfWeek = firstDay.getDay();
+            // 今月の末日を取得する
+            let lastDay = new Date(dateData[0], dateData[1], 0);
+            let lastDayOfWeek = lastDay.getDay();
+
+            let day = 1;
+            let str = "";
+            while (true) {
+                str += "<tr>";
+                for (i = 0; i < 7; i++) {
+                    // 初週かつ初日より前の場合は、空白にする
+                    if (day == 1 && i < firstDayOfWeek) {
+                        str += "<td></td>";
+                        // 最終週かつ最終日より後の場合は、空白にする
+                    } else if (day >= lastDay.getDate() && lastDayOfWeek < i) {
+                        str += "<td></td>";
+                    } else {
+                        str += "<td>";
+                        if (i == 0 || i == 6) {
+                            str += "<a class='red'>" + day++ + "</a>";
+                        } else {
+                            str += day++;
+                        }
+                        str += "</td>";
+                    }
+                }
+                str += "</tr>";
+
+                if (lastDay.getDate() + 1 == day) {
+                    break;
+                }
+            }
+            $("#calendar").append(str);
+        }
+    })
+
+</script>
+
+</html>
