@@ -22,7 +22,6 @@ jQuery(function ($) {
         let firstDayOfWeek = firstDay.getDay();
         // 今月の末日を取得する
         let lastDay = new Date(yearMonth[0], yearMonth[1], 0);
-        let lastDayOfWeek = lastDay.getDay();
 
         let day = 1;
         let weekStr = "";
@@ -49,7 +48,7 @@ jQuery(function ($) {
             weekStr += "</tr>";
 
             // 最終日の場合、ループ終了
-            if (lastDay.getDate() + 1 <= day) {
+            if (day >= lastDay.getDate() + 1) {
                 break;
             }
         }
