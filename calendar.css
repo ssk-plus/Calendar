@@ -1,9 +1,34 @@
-.holiday {
-    color: red;
+#areaDisplay {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
 }
 
-#calendar {
+#areaDisplay div {
+    margin: 20px;
+}
+
+#areaCalendar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+#areaCalendar .calendar {
+    width: 15%;
+    display: none;
+    margin: 5px;
     text-align: center;
     background-color:  floralwhite;
     border: 1px solid black;
+}
+
+#areaCalendar .calendar td {
+    width: 15%;
+}
+
+#areaCalendar .calendar .holiday {
+    color: red;
 }

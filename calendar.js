@@ -2,26 +2,42 @@
 jQuery(function ($) {
 
     $(document).ready(function () {
-        setMonth();
-        setDay();
+        setDisplayYearMonth();
+        setYear();
     })
 
-    // 今月を設定する
-    function setMonth() {
+    // 表示する年を設定する
+    function setDisplayYearMonth() {
         let date = new Date();
-        $("#yearMonth").text(date.getFullYear() + "." + (date.getMonth() + 1));
+        $("#displayYearMonth").text(date.getFullYear());
     }
 
-    // 年月に対応したカレンダーを設定する
-    function setDay() {
-        $("#areaWeek").nextAll().remove();
+    // 年を設定する
+    function setYear() {
+        for (let i = 0; i < 12; i++) {
+            $("#areaCalendar").append($(".calendar:first").clone().css("display", "block"));
+            setMonth(i);
+            setDay(i);
+        }
+    }
 
-        let yearMonth = $("#yearMonth").text().split(".");
+    // 月を設定する
+    function setMonth(i) {
+        let yearMonth = $("#displayYearMonth").text();
+        let date = new Date(yearMonth, i, 1);
+        $(".year-month:last").text(date.getFullYear() + "." + parseInt(date.getMonth() + 1));
+    }
+
+    // 月のカレンダーを設定する
+    function setDay(i) {
+
+        $(".area-week:last").nextAll().remove();
+        let yearMonth = $(".year-month:last").text();
         // 今月を取得する
-        let firstDay = new Date(yearMonth[0], parseInt(yearMonth[1]) - 1, 1);
+        let firstDay = new Date(yearMonth, i, 1);
         let firstDayOfWeek = firstDay.getDay();
         // 今月の末日を取得する
-        let lastDay = new Date(yearMonth[0], yearMonth[1], 0);
+        let lastDay = new Date(yearMonth, i + 1, 0);
 
         let day = 1;
         let weekStr = "";
@@ -52,23 +68,25 @@ jQuery(function ($) {
                 break;
             }
         }
-        $("#calendar").append(weekStr);
+        $(".calendar:last").append(weekStr);
     }
 
-    // 先月を設定する
-    $(document).on("click", "#btnPreviousMonth", function () {
-        let yearMonth = $("#yearMonth").text().split(".");
-        let preMonth = new Date(yearMonth[0], parseInt(yearMonth[1]) - 2, 1);
-        $("#yearMonth").text(preMonth.getFullYear() + "." + (preMonth.getMonth() + 1));
-        setDay();
+    // 1年前のカレンダーを設定する
+    $(document).on("click", ".btn-previous", function () {
+        let yearMonth = $("#displayYearMonth").text();
+        let preMonth = new Date(parseInt(yearMonth) - 1, 1, 1);
+        $("#displayYearMonth").text(preMonth.getFullYear());
+        $("#areaCalendar").find(".calendar").nextAll().remove();
+        setYear();
     })
 
-    // 翌月を設定する
-    $(document).on("click", "#btnNextMonth", function () {
-        let yearMonth = $("#yearMonth").text().split(".");
-        let nextMonth = new Date(yearMonth[0], parseInt(yearMonth[1]), 1);
-        $("#yearMonth").text(nextMonth.getFullYear() + "." + (nextMonth.getMonth() + 1));
-        setDay();
+    // 1年先のカレンダーを設定する
+    $(document).on("click", ".btn-next", function () {
+        let yearMonth = $("#displayYearMonth").text();
+        let nextMonth = new Date(parseInt(yearMonth) + 1, 1, 1);
+        $("#displayYearMonth").text(nextMonth.getFullYear());
+        $("#areaCalendar").find(".calendar").nextAll().remove();
+        setYear();
     })
 
 })

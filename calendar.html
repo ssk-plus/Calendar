@@ -6,22 +6,27 @@
 </head>
 
 <body>
-    <table id="calendar">
-        <tr id="areaControl">
-            <td><input type="button" id="btnPreviousMonth" value="←"></td>
-            <td id="yearMonth" colspan="5"></td>
-            <td><input type="button" id="btnNextMonth" value="→"></td>
-        </tr>
-        <tr id="areaWeek">
-            <td>月</td>
-            <td>火</td>
-            <td>水</td>
-            <td>木</td>
-            <td>金</td>
-            <td class="holiday">土</td>
-            <td class="holiday">日</td>
-        </tr>
-    </table>
+    <div id="areaDisplay">
+        <div><input type="button" class="btn-previous" value="←"></div>
+        <div id="displayYearMonth"></div>
+        <div><input type="button" class="btn-next" value="→"></div>
+    </div>
+    <div id="areaCalendar">
+        <table class="calendar">
+            <tr class="area-control">
+                <td class="year-month" colspan="7"></td>
+            </tr>
+            <tr class="area-week">
+                <td>月</td>
+                <td>火</td>
+                <td>水</td>
+                <td>木</td>
+                <td>金</td>
+                <td class="holiday">土</td>
+                <td class="holiday">日</td>
+            </tr>
+        </table>
+    </div>
 </body>
 <script src="./jquery-3.5.1.js"></script>
 <script src="calendar.js"></script>
